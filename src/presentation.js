@@ -12,6 +12,7 @@ import {
   Quote,
   Slide,
   Text,
+  Image,
 } from 'spectacle';
 
 // Import theme
@@ -41,14 +42,46 @@ export default class Presentation extends React.Component {
         transitionDuration={500}
         theme={theme}
       >
-        <Slide transition={['zoom']} bgColor="primary">
-          <Heading size={1} fit caps lineHeight={1} textColor="secondary">
-            Spectacle Boilerplate
-          </Heading>
-          <Text margin="10px 0 0" textColor="tertiary" size={1} fit bold>
-            open the presentation/index.js file to get started
-          </Text>
+        {/* Landing */}
+        <Slide bgColor="primary">
+          <Image src="/graphql_logo.png" height={300} display="flex" />
+          <Image src="/apollo-logo.png" height={300} />
         </Slide>
+
+        {/* Intro */}
+        <Slide bgColor="primary" bgColor="secondary">
+          <Heading size={1}>
+            Introduction
+          </Heading>
+        </Slide>
+
+        {/* Summary */}
+        <Slide transition={['zoom']} bgColor="tertiary">
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ marginRight: '20px' }}>
+              <Heading style={{ textAlign: 'left' }} size={4} textColor="primary">
+                GraphQL
+              </Heading>
+              <List textColor="secondary">
+                <ListItem>What is it?</ListItem>
+                <ListItem>History</ListItem>
+                <ListItem>REST v. GraphQL</ListItem>
+                <ListItem>Implementations</ListItem>
+              </List>
+            </div>
+            <div>
+              <Heading style={{ textAlign: 'left' }} size={4} textColor="primary">
+                Apollo
+              </Heading>
+              <List textColor="secondary">
+                <ListItem>Overview</ListItem>
+                <ListItem>Demo</ListItem>
+              </List>
+            </div>
+          </div>
+        </Slide>
+
+
         <Slide transition={['fade']} bgColor="tertiary">
           <Heading size={6} textColor="primary" caps>
             Typography
