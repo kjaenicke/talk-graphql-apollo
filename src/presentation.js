@@ -442,6 +442,11 @@ export default class Presentation extends React.Component {
                 Spectacle
               </a>
             </ListItem>
+            <ListItem>
+              <a rel="noopener noreferrer" href="https://github.com/kjaenicke/talk-graphql-apollo" target="_blank">
+                The slides
+              </a>
+            </ListItem>
           </List>
         </Slide>
       </Deck>
