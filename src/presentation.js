@@ -109,6 +109,11 @@ export default class Presentation extends React.Component {
           </BlockQuote>
         </Slide>
 
+        {/* What is it? */}
+        <Slide transition={['fade']} bgColor="secondary">
+          <img src="/morpheus.jpg" alt="morpheus" />
+        </Slide>
+
         {/* Describe */}
         <Slide transition={['fade']} bgColor="tertiary">
           <Heading size={4} textColor="primary" caps>
@@ -163,6 +168,10 @@ export default class Presentation extends React.Component {
           </a>
         </Slide>
 
+        <Slide transition={['zoom']} bgColor="secondary">
+          <img src="https://media.giphy.com/media/udhR8Hh1YVM6Q/giphy.gif" alt="red pill or blue pill" />
+        </Slide>
+
         {/* REST v. GraphQL */}
         <Slide transition={['fade']} bgColor="tertiary" notes="HTTP methods vs query and mutation">
           <Heading size={3} textColor="primary">
@@ -177,6 +186,11 @@ export default class Presentation extends React.Component {
               <TableHeaderItem>
                 <Text textColor="primary" style={{ textDecoration: 'underline' }} bold>GraphQL</Text>
               </TableHeaderItem>
+            </TableRow>
+            <TableRow>
+              <Text fontSize={6} textColor="primary" bold>New Hotness</Text>
+              <TableItem>No</TableItem>
+              <TableItem>Yes</TableItem>
             </TableRow>
             <TableRow>
               <TableItem>
@@ -231,10 +245,13 @@ export default class Presentation extends React.Component {
               </a> - Meteor Team
             </ListItem>
             <ListItem>
+              A few others
+            </ListItem>
+            {/* <ListItem>
               <a rel="noopener noreferrer" target="_blank" href="http://netflix.github.io/falcor/">
                 Falcor
               </a> - Netflix (not GraphQL but attempts to solve similar problems)
-            </ListItem>
+            </ListItem> */}
           </List>
         </Slide>
 
@@ -258,21 +275,194 @@ export default class Presentation extends React.Component {
           </Heading>
           <List textColor="primary">
             <ListItem>
-              Client
+              Client - A GraphQL client for every frontend platform
             </ListItem>
             <ListItem>
-              Engine
+              Server -  A library for writing GraphQL servers with JavaScript
             </ListItem>
             <ListItem>
-              Server
+              Engine - A GraphQL gateway that provides caching, error tracking, and performance tracing
             </ListItem>
           </List>
         </Slide>
 
+        {/* CLIENT */}
+        <Slide transition={['fade']} bgColor="secondary" notes="">
+          <Heading size={2} textColor="primary">
+            Clients
+          </Heading>
+          <List textColor="primary">
+            <ListItem>
+              React / React Native
+            </ListItem>
+            <ListItem>
+              Vue
+            </ListItem>
+            <ListItem>
+              Angular
+            </ListItem>
+            <ListItem>
+              Android & iOS
+            </ListItem>
+            <ListItem>
+              Ember
+            </ListItem>
+          </List>
+        </Slide>
+
+        {/* CLIENT */}
+        <Slide transition={['fade']} bgColor="primary" notes="">
+          <Heading size={3} textColor="tertiary">
+            Features of Apollo Client
+          </Heading>
+          <List textColor="secondary">
+            <ListItem>
+              Works out of the box with Apollo server
+            </ListItem>
+            <ListItem>
+              Caching & Composing
+            </ListItem>
+            <ListItem>
+              Developer Tooling
+            </ListItem>
+            <ListItem>
+              Optimistic UI
+            </ListItem>
+            <ListItem>
+              Error Handling
+            </ListItem>
+          </List>
+        </Slide>
+
+        {/* Server */}
+        <Slide transition={['fade']} bgColor="secondary" notes="">
+          <Heading size={2} textColor="primary">
+            Server Languages
+          </Heading>
+          <List textColor="primary">
+            <ListItem>
+              JavaScript
+            </ListItem>
+            <ListItem>
+              Ruby
+            </ListItem>
+            <ListItem>
+              Java
+            </ListItem>
+            <ListItem>
+              Scala
+            </ListItem>
+            <ListItem>
+              Elixir
+            </ListItem>
+            <ListItem>
+              Python
+            </ListItem>
+            <ListItem>
+              Go
+            </ListItem>
+          </List>
+        </Slide>
+
+        {/* ALL THE DATA */}
+        <Slide transition={['zoom']} bgColor="primary">
+          <img width="75%" src="/sql_rest_mongo.png" alt="graphql data providers" />
+        </Slide>
+
+        <Slide>
+          <Heading size={4} textColor="secondary">
+            Define a Schema
+          </Heading>
+          <CodePane
+            lang="js"
+            source={
+              `
+              const { makeExecutableSchema } = require('graphql-tools');
+
+              const typeDefs = \`
+                type Query {
+                  books: [Book]
+                }
+                type Book {
+                  title: String
+                  author: String
+                }
+              \`;
+
+              const resolvers = {
+                Query: {
+                  books: () => fetch('https://api.example.com/books')
+                },
+              };
+
+              const schema = makeExecutableSchema({ typeDefs, resolvers });
+              `
+            }
+          />
+        </Slide>
+
+        <Slide>
+          <Heading size={4} textColor="secondary">
+            Create API using Express
+          </Heading>
+          <CodePane
+            lang="js"
+            source={
+              `
+                import express from 'express';
+                import bodyParser from 'body-parser';
+                import { graphqlExpress } from 'apollo-server-express';
+                import { myGraphQLSchema } from './schema';
+
+                const app = express();
+                app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: myGraphQLSchema }));
+              `
+            }
+          />
+        </Slide>
+
+        <Slide>
+          <Heading size={4} textColor="secondary">
+            Sequelize
+          </Heading>
+          <CodePane
+            lang="js"
+            source={
+              `
+              const resolvers = {
+                Query: {
+                  author(_, args) {
+                    return Author.find({ where: args });
+                  },
+                  allAuthors(_, args) {
+                    return Author.findAll();
+                  }
+                },
+                Author: {
+                  posts(author) {
+                    return author.getPosts();
+                  }
+                },
+                Post: {
+                  author(post) {
+                    return post.getAuthor();
+                  },
+                  views(post) {
+                    return View.findOne({ postId: post.id }).then(view => view.views);
+                  }
+                }
+              };
+              `
+            }
+          />
+        </Slide>
+
+        {/* Engine */}
+
         {/* Let's see the code! */}
         <Slide transition={['fade']} bgColor="primary" notes="">
           <Heading size={2} textColor="secondary">
-            Let's see the code!
+            Let's try it out!
           </Heading>
         </Slide>
 
@@ -281,9 +471,9 @@ export default class Presentation extends React.Component {
           <Heading size={4} textColor="secondary">
             App Setup
           </Heading>
-          <Code>create-react-app sw-apollo-demo</Code>
-          <Code>cd sw-apollo-demo</Code>
-          <Code>yarn start</Code>
+          <Code style={{ display: 'block' }}>create-react-app sw-apollo-demo</Code>
+          <Code style={{ display: 'block' }}>cd sw-apollo-demo</Code>
+          <Code style={{ display: 'block' }}>yarn start</Code>
         </Slide>
 
         {/* install apollo client */}
@@ -307,7 +497,7 @@ export default class Presentation extends React.Component {
     
             export const client = new ApolloClient({
               link: new HttpLink({
-                  uri: '<GRAPHQL_ENDPOINT>'
+                  uri: 'http://localhost:5005'
               }),
               cache: new InMemoryCache()
           });
@@ -431,10 +621,19 @@ export default class Presentation extends React.Component {
                 Spec
               </a>
             </ListItem>
-            {/* https://github.com/graphql/swapi-graphql */}
             <ListItem>
               <a rel="noopener noreferrer" href="https://github.com/graphql/swapi-graphql" target="_blank">
                 Star Wars GraphQL API (Github)
+              </a>
+            </ListItem>
+            <ListItem>
+              <a rel="noopener noreferrer" href="https://dev-blog.apollodata.com/tutorial-building-a-graphql-server-cddaa023c035" target="_blank">
+                Apollo Starter
+              </a>
+            </ListItem>
+            <ListItem>
+              <a rel="noopener noreferrer" href="https://github.com/chentsulin/awesome-graphql" target="_blank">
+                Awesome GraphQL
               </a>
             </ListItem>
             <ListItem>
